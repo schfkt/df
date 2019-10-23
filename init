@@ -1,11 +1,20 @@
 #!/bin/bash -e
 
-[ $DEBUG == true ] && set -x
+[[ $DEBUG == true ]] && set -x
 
-# TODO: conditioanlly check what readlink command to use
-# TODO: since the current on is a macos installed GNU coreutils
-dotfiles_dir=$(greadlink -f `dirname $0`)
+if [[ $OSTYPE =~ ^darwin ]]; then
+  # This is the GNU coreutils binary installed with
+  # brew install coreutils
+  # brew namespaces them under g* symlinks
+  cmd=`which greadlink`
+elif [[ $OSTYPE =~ ^linux ]]; then
+  cmd=`which readlink`
+else
+  echo Unsopported platform $OSTYPE
+  exit 1
+fi
 
+dotfiles_dir=$($cmd -f `dirname $0`)
 echo Going to setup dotfiles from $dotfiles_dir
 
 ln -s $dotfiles_dir/.bashrc ~/
