@@ -1,0 +1,13 @@
+#!/bin/bash -e
+
+[ $DEBUG == true ] && set -x
+
+# TODO: conditioanlly check what readlink command to use
+# TODO: since the current on is a macos installed GNU coreutils
+dotfiles_dir=$(greadlink -f `dirname $0`)
+
+echo Going to setup dotfiles from $dotfiles_dir
+
+ln -s $dotfiles_dir/.bashrc ~/
+ln -s $dotfiles_dir/.bash_profile ~/
+
