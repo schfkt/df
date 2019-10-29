@@ -5,7 +5,6 @@ fi
 
 # OS specific stuff
 if [[ $OSTYPE =~ ^darwin ]]; then
-  echo "sourced for darwin"
   export BASH_SILENCE_DEPRECATION_WARNING=1
 
   . /usr/local/etc/bash_completion
