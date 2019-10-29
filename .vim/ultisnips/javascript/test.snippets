@@ -1,0 +1,29 @@
+snippet desc "describe block" b
+describe('$1', () => {
+	$0
+});
+endsnippet
+
+snippet it "it block" b
+it('$1', () => {
+	$0
+});
+endsnippet
+
+snippet ita "it block with async" b
+it('$1', async () => {
+	$0
+});
+endsnippet
+
+snippet before "before block" b
+before(() => {
+$0
+});
+endsnippet
+
+snippet beforea "before block with async" b
+before(async () => {
+$0
+});
+endsnippet
