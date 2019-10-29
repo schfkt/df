@@ -3,6 +3,13 @@ if [ -f /etc/bashrc ]; then
   . /etc/bashrc
 fi
 
+# Env variables
+export LC_ALL=en_US.UTF-8
+export EDITOR=vim
+export PATH="$PATH:$HOME/bin"
+export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on"
+export NVM_DIR="$HOME/.nvm"
+
 # OS specific stuff
 if [[ $OSTYPE =~ ^darwin ]]; then
   export BASH_SILENCE_DEPRECATION_WARNING=1
@@ -10,6 +17,9 @@ if [[ $OSTYPE =~ ^darwin ]]; then
   . /usr/local/etc/bash_completion
   . /usr/local/etc/bash_completion.d/git-completion.bash
   . /usr/local/etc/bash_completion.d/git-prompt.sh
+
+  . /usr/local/opt/nvm/nvm.sh
+  . /usr/local/opt/nvm/etc/bash_completion.d/nvm
 elif [[ $OSTYPE =~ ^linux ]]; then
   export SSH_ASKPASS=/usr/bin/ksshaskpass
 
@@ -17,18 +27,10 @@ elif [[ $OSTYPE =~ ^linux ]]; then
   alias vim=vimx
 
   . /usr/share/git-core/contrib/completion/git-prompt.sh
+
+  . "$NVM_DIR/nvm.sh"
+  . "$NVM_DIR/bash_completion"
 fi
-
-# Env variables
-export LC_ALL=en_US.UTF-8
-export EDITOR=vim
-export PATH="$PATH:$HOME/bin"
-export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on"
-
-# NVM
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 # Prompt
 export GIT_PS1_SHOWDIRTYSTATE=1
