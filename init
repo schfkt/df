@@ -20,3 +20,5 @@ echo Going to setup dotfiles from $dotfiles_dir
 ln -s $dotfiles_dir/.bashrc ~/
 ln -s $dotfiles_dir/.bash_profile ~/
 
+ln -s $dotfiles_dir/.tmux ~/
+ln -s $dotfiles_dir/.tmux.conf ~/
