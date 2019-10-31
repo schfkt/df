@@ -1,0 +1,19 @@
+# Change the default commit binding
+bind status C none
+bind status C !git commit -v
+
+# Amend last commit
+bind status + !git commit --amend
+
+# Push local changes in the current branch into origin
+bind status P !git push origin HEAD
+
+# Vim-like keybindings
+bind generic g none
+bind generic gg move-first-line
+bind generic G none
+bind generic G move-last-line
+
+# Set the other bindings for the overridden actions
+bind generic v none
+bind generic vg view-grep

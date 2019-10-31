@@ -26,3 +26,5 @@ ln -s $dotfiles_dir/.tmux.conf ~/
 mkdir -p ~/.vim/{backup,swap,undo}
 ln -s $dotfiles_dir/.vimrc ~/
 ln -s $dotfiles_dir/.vim/ultisnips ~/.vim/ultisnips
+
+ln -s $dotfiles_dir/.tigrc ~/
