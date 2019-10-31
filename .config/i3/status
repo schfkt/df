@@ -1,0 +1,40 @@
+general {
+  colors = true
+  interval = 2
+}
+
+order += "path_exists vpn"
+order += "ethernet enp3s0"
+order += "wireless wlp2s0"
+order += "battery 0"
+order += "volume master"
+order += "tztime local"
+
+path_exists vpn {
+  path = "/proc/sys/net/ipv4/conf/tun0"
+}
+
+ethernet enp3s0 {
+  format_up = " E: %ip "
+  format_down = " E: down "
+}
+
+wireless wlp2s0 {
+  format_up = " W: %quality at %essid "
+  format_down = " W: down "
+}
+
+battery 0 {
+  format = " B: %percentage "
+}
+
+volume master {
+	format = " ♪: %volume  "
+	device = "default"
+	mixer = "Master"
+	mixer_idx = 0
+}
+
+tztime local {
+	format = " %h-%d %H:%M "
+}
