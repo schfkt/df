@@ -214,7 +214,7 @@ nnoremap <leader>sr :.,$s/\<<C-r><C-w>\>//gc<left><left><left>
 nnoremap <leader>ss :CtrlSF ""<left>
 " TODO: Refactor into a separate func
 " nnoremap <expr> <leader>st ':CtrlSF "" ' . fnamemodify(g:NERDTreeDirNode.GetSelected().path.str(), ':.')
-nnoremap <leader>sw :CtrlSF "<C-r><C-w>"<cr>
+nnoremap <leader>sw :CtrlSF "<C-r><C-w>"
 
 let g:which_key_map.s = {
       \ 'name' : '+search',
@@ -231,8 +231,10 @@ nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gf :Gfetch<cr>
+nnoremap <leader>gh :SignifyHunkDiff<cr>
 nnoremap <leader>gl :Glog --<cr>
 nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gu :SignifyHunkUndo<cr>
 
 let g:which_key_map.g = {
       \ 'name' : '+git',
@@ -240,8 +242,10 @@ let g:which_key_map.g = {
       \ 'c' : 'commit',
       \ 'd' : 'diff',
       \ 'f' : 'fetch',
+      \ 'h' : 'hunk-diff',
       \ 'l' : 'log',
       \ 's' : 'status',
+      \ 'u' : 'undo-hunk',
       \ }
 
 " Working with references
