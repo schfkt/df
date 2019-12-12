@@ -31,6 +31,8 @@ Plugin 'SirVer/ultisnips'
 Plugin 'dyng/ctrlsf.vim'
 Plugin 'MaxMEllon/vim-jsx-pretty'
 Plugin 'liuchengxu/vim-which-key'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'ianks/vim-tsx'
 
 call vundle#end()
 
@@ -212,8 +214,6 @@ nnoremap <leader>sc :CtrlSFClose<cr>
 nnoremap <leader>so :CtrlSFOpen<cr>
 nnoremap <leader>sr :.,$s/\<<C-r><C-w>\>//gc<left><left><left>
 nnoremap <leader>ss :CtrlSF ""<left>
-" TODO: Refactor into a separate func
-" nnoremap <expr> <leader>st ':CtrlSF "" ' . fnamemodify(g:NERDTreeDirNode.GetSelected().path.str(), ':.')
 nnoremap <leader>sw :CtrlSF "<C-r><C-w>"
 
 let g:which_key_map.s = {
@@ -323,6 +323,9 @@ highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
 let g:ale_fixers = {
 \   'javascript': ['prettier', 'eslint'],
 \   'typescript': ['prettier', 'tslint'],
+\   'typescript.tsx': ['prettier', 'tslint'],
+\   'vue': ['eslint'],
+\   'html': ['prettier'],
 \   'go': ['gofmt'],
 \}
 
@@ -333,7 +336,7 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 let g:user_emmet_install_global = 0
 
 " NERDTree
-let g:NERDTreeShowHidden=1
+let g:NERDTreeShowHidden = 1
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeDirArrows = 1
 
