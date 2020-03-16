@@ -6,7 +6,7 @@ fi
 # Env variables
 export LC_ALL=en_US.UTF-8
 export EDITOR=vim
-export PATH="$PATH:$HOME/bin"
+export PATH="$HOME/.cargo/bin:$HOME/bin:$PATH"
 export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on"
 export NVM_DIR="$HOME/.nvm"
 
@@ -49,6 +49,7 @@ alias ll='ls -lah'
 function yr() {
   local script=$(jq -r ".scripts | keys[]" package.json | fzf)
   if [ -n "$script" ]; then
+    echo "yarn run $script"
     yarn run "$script"
   fi
 }

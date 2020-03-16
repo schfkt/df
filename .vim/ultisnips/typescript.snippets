@@ -1,1 +1,33 @@
 extends javascript
+
+snippet @ti "@ts-ingore comment"
+// @ts-ignore
+endsnippet
+
+snippet @tn "@ts-nocheck comment"
+// @ts-nocheck
+endsnippet
+
+snippet => "arrow function"
+($1): $2 => {
+	$0
+}
+endsnippet
+
+snippet pub "public method" b
+public $1($2): $3 {
+	$0
+}
+endsnippet
+
+snippet pro "protected method" b
+protected $1($2): $3 {
+	$0
+}
+endsnippet
+
+snippet pri "private method" b
+private $1($2): $3 {
+	$0
+}
+endsnippet

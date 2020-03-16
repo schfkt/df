@@ -1,0 +1,30 @@
+snippet if "if" b
+if ($1) {
+	$0
+}
+endsnippet
+
+snippet ife "if else" b
+if ($1) {
+	$0
+} else {
+}
+endsnippet
+
+snippet ifn "if null" b
+if ($1 == null) {
+	$0
+}
+endsnippet
+
+snippet ifnn "if not null" b
+if ($1 != null) {
+	$0
+}
+endsnippet
+
+snippet forof "for of" b
+for (const $1 of $2) {
+	$0
+}
+endsnippet

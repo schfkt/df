@@ -233,7 +233,7 @@ nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gf :Gfetch<cr>
 nnoremap <leader>gh :SignifyHunkDiff<cr>
 nnoremap <leader>gl :Glog --<cr>
-nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gs :vertical Gstatus<cr>
 nnoremap <leader>gu :SignifyHunkUndo<cr>
 
 let g:which_key_map.g = {
@@ -251,6 +251,7 @@ let g:which_key_map.g = {
 " Working with references
 nnoremap <leader>rf :YcmCompleter FixIt<cr>
 nnoremap <leader>rg :YcmCompleter GoToDefinition<cr>
+nnoremap <leader>ri :YcmCompleter GoToType<cr>
 nnoremap <leader>rr :YcmCompleter RefactorRename <C-r><C-w><space>
 nnoremap <leader>rt :YcmCompleter GetType<cr>
 nnoremap <leader>ru :YcmCompleter GoToReferences<cr>
@@ -259,6 +260,7 @@ let g:which_key_map.r = {
       \ 'name' : '+reference',
       \ 'f' : 'fix-it',
       \ 'g' : 'go-to-definition',
+      \ 'i' : 'go-to-type',
       \ 'r' : 'rename',
       \ 't' : 'get-type',
       \ 'u' : 'show-usages',
@@ -266,6 +268,7 @@ let g:which_key_map.r = {
 
 " Other code-related actions
 nnoremap <leader>cf :ALEFix<cr>
+nnoremap <leader>cr :YcmRestartServer<cr>
 
 let g:which_key_map.c = {
       \ 'name' : '+code',
@@ -320,6 +323,7 @@ let g:ale_sign_warning = '⚠'
 highlight ALEErrorSign ctermbg=NONE ctermfg=red
 highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
 
+let g:ale_linters_explicit = 1
 let g:ale_fixers = {
 \   'javascript': ['prettier', 'eslint'],
 \   'typescript': ['prettier', 'tslint'],
