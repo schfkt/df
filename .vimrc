@@ -15,7 +15,7 @@ Plugin 'ycm-core/YouCompleteMe'
 Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tpope/vim-fugitive'
-Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.vim' " TODO: get rid of, use fzf instead
 Plugin 'mhinz/vim-signify'
 Plugin 'tpope/vim-commentary'
 Plugin 'altercation/vim-colors-solarized'
@@ -33,6 +33,8 @@ Plugin 'MaxMEllon/vim-jsx-pretty'
 Plugin 'liuchengxu/vim-which-key'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'ianks/vim-tsx'
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
 
 call vundle#end()
 
@@ -188,15 +190,19 @@ let g:which_key_map = {}
 " File operations
 let g:which_key_map.f = {
       \ 'name' : '+file',
+      \ 'a' : 'find-all-files',
       \ 'd' : 'open-vimrc',
       \ 'f' : 'find-file',
+      \ 'h' : 'history',
       \ 'm' : 'most-recent',
       \ 'r' : 'reveal-in-tree',
       \ 't' : 'toggle-tree',
       \ }
 
+nnoremap <leader>fa :Files<cr>
 nnoremap <leader>fd :e ~/.vimrc<cr>
-nnoremap <leader>ff :CtrlP<cr>
+nnoremap <leader>ff :GFiles<cr>
+nnoremap <leader>fh :History<cr>
 nnoremap <leader>fm :CtrlPMRUFiles<cr>
 nnoremap <leader>fr :NERDTreeFind<cr>
 nnoremap <leader>ft :NERDTreeToggle<cr>
@@ -205,24 +211,31 @@ nnoremap <leader>ft :NERDTreeToggle<cr>
 let g:which_key_map.b = {
       \ 'name' : '+buffer',
       \ 'b' : 'find-buffer',
+      \ 'l' : 'lines-in-buffers',
       \ }
 
-nnoremap <leader>bb :CtrlPBuffer<cr>
+nnoremap <leader>bb :Buffers<cr>
+nnoremap <leader>bl :Lines<cr>
 
 " Search & Replace
 nnoremap <leader>sc :CtrlSFClose<cr>
+nnoremap <leader>sf :CtrlSF -filetype
 nnoremap <leader>so :CtrlSFOpen<cr>
+nnoremap <leader>sp :CtrlSF -R ""<left>
 nnoremap <leader>sr :.,$s/\<<C-r><C-w>\>//gc<left><left><left>
 nnoremap <leader>ss :CtrlSF ""<left>
-nnoremap <leader>sw :CtrlSF "<C-r><C-w>"
+nnoremap <leader>su :CtrlSFUpdate<cr>
+nnoremap <leader>sw :CtrlSF -W "<C-r><C-w>"
 
 let g:which_key_map.s = {
       \ 'name' : '+search',
       \ 'c' : 'close-window',
+      \ 'f' : 'filetype',
       \ 'o' : 'open-window',
+      \ 'p' : 'pattern',
       \ 'r' : 'replace-word',
       \ 's' : 'search',
-      \ 't' : 'search-in-tree',
+      \ 'u' : 'update-search',
       \ 'w' : 'search-word',
       \ }
 
@@ -255,6 +268,7 @@ nnoremap <leader>ri :YcmCompleter GoToType<cr>
 nnoremap <leader>rr :YcmCompleter RefactorRename <C-r><C-w><space>
 nnoremap <leader>rt :YcmCompleter GetType<cr>
 nnoremap <leader>ru :YcmCompleter GoToReferences<cr>
+nnoremap <leader>rv :vsplit \| YcmCompleter GoToDefinition<cr>
 
 let g:which_key_map.r = {
       \ 'name' : '+reference',
@@ -264,15 +278,21 @@ let g:which_key_map.r = {
       \ 'r' : 'rename',
       \ 't' : 'get-type',
       \ 'u' : 'show-usages',
+      \ 'v' : 'go-to-vsplit',
       \ }
 
 " Other code-related actions
 nnoremap <leader>cf :ALEFix<cr>
+nnoremap <leader>cm :Marks<cr>
+nnoremap <leader>cs :Snippets<cr>
 nnoremap <leader>cr :YcmRestartServer<cr>
 
 let g:which_key_map.c = {
       \ 'name' : '+code',
       \ 'f' : 'fix',
+      \ 'm' : 'marks',
+      \ 's' : 'snippets',
+      \ 'r' : 'restart-ycm-server',
       \ }
 
 " Plugin setup
