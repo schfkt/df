@@ -15,7 +15,6 @@ Plugin 'ycm-core/YouCompleteMe'
 Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tpope/vim-fugitive'
-Plugin 'ctrlpvim/ctrlp.vim' " TODO: get rid of, use fzf instead
 Plugin 'mhinz/vim-signify'
 Plugin 'tpope/vim-commentary'
 Plugin 'altercation/vim-colors-solarized'
@@ -35,6 +34,7 @@ Plugin 'leafgarland/typescript-vim'
 Plugin 'ianks/vim-tsx'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
+Plugin 'christoomey/vim-tmux-runner'
 
 call vundle#end()
 
@@ -203,7 +203,6 @@ nnoremap <leader>fa :Files<cr>
 nnoremap <leader>fd :e ~/.vimrc<cr>
 nnoremap <leader>ff :GFiles<cr>
 nnoremap <leader>fh :History<cr>
-nnoremap <leader>fm :CtrlPMRUFiles<cr>
 nnoremap <leader>fr :NERDTreeFind<cr>
 nnoremap <leader>ft :NERDTreeToggle<cr>
 
@@ -262,6 +261,7 @@ let g:which_key_map.g = {
       \ }
 
 " Working with references
+nnoremap <leader>rd :YcmCompleter GetDoc<cr>
 nnoremap <leader>rf :YcmCompleter FixIt<cr>
 nnoremap <leader>rg :YcmCompleter GoToDefinition<cr>
 nnoremap <leader>ri :YcmCompleter GoToType<cr>
@@ -272,6 +272,7 @@ nnoremap <leader>rv :vsplit \| YcmCompleter GoToDefinition<cr>
 
 let g:which_key_map.r = {
       \ 'name' : '+reference',
+      \ 'd' : 'doc',
       \ 'f' : 'fix-it',
       \ 'g' : 'go-to-definition',
       \ 'i' : 'go-to-type',
@@ -286,6 +287,7 @@ nnoremap <leader>cf :ALEFix<cr>
 nnoremap <leader>cm :Marks<cr>
 nnoremap <leader>cs :Snippets<cr>
 nnoremap <leader>cr :YcmRestartServer<cr>
+" TODO: :call UltiSnips#RefreshSnippets()
 
 let g:which_key_map.c = {
       \ 'name' : '+code',
@@ -293,6 +295,23 @@ let g:which_key_map.c = {
       \ 'm' : 'marks',
       \ 's' : 'snippets',
       \ 'r' : 'restart-ycm-server',
+      \ }
+
+" Window-related commands
+nnoremap <leader>wz :wincmd _<cr>:wincmd \|<cr>
+
+let g:which_key_map.w = {
+      \ 'name' : '+window',
+      \ 'z' : 'zoom',
+      \ }
+
+" Tmux interactions
+" TODO: add more https://github.com/christoomey/vim-tmux-runner/blob/master/doc/vim-tmux-runner.txt
+nnoremap <leader>tf :VtrSendFile<cr>
+
+let g:which_key_map.t = {
+      \ 'name' : '+tmux',
+      \ 'f' : 'send-file',
       \ }
 
 " Plugin setup
@@ -330,12 +349,6 @@ let g:airline_right_sep=''
 " No lag when leaving insert mode with vim-airline plugin activated
 set ttimeoutlen=50
 
-" CtrlP
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-let g:ctrlp_use_caching = 0
-let g:ctrlp_working_path = 0
-let g:ctrlp_mruf_relative = 1
-
 " ALE
 let g:ale_sign_error = '✘'
 let g:ale_sign_warning = '⚠'
@@ -343,7 +356,18 @@ let g:ale_sign_warning = '⚠'
 highlight ALEErrorSign ctermbg=NONE ctermfg=red
 highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
 
+" Only neable linters specified by ale_linters map
 let g:ale_linters_explicit = 1
+
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'typescript': ['tslint', 'eslint'],
+\   'typescript.tsx': ['tslint', 'eslint'],
+\   'vue': ['eslint'],
+\   'json': ['jsonlint'],
+\   'go': ['go vet'],
+\}
+
 let g:ale_fixers = {
 \   'javascript': ['prettier', 'eslint'],
 \   'typescript': ['prettier', 'tslint'],
@@ -351,6 +375,7 @@ let g:ale_fixers = {
 \   'vue': ['eslint'],
 \   'html': ['prettier'],
 \   'go': ['gofmt'],
+\   'json': ['jq'],
 \}
 
 " editorconfig-vim
@@ -372,4 +397,9 @@ let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/ultisnips']
 let g:UltiSnipsExpandTrigger = '<C-j>'
 let g:UltiSnipsJumpForwardTrigger = '<C-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
+
+" vim-tmux-runner
+let g:vtr_filetype_runner_overrides = {
+      \ 'rust': 'rustc {file}'
+      \ }
 

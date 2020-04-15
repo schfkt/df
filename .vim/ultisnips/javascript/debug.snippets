@@ -2,8 +2,26 @@ snippet log "console.log() call"
 console.log($1);$0
 endsnippet
 
+snippet logj "console.log with json"
+console.log('$1', JSON.stringify($2, null, 2));$0
+endsnippet
+
+snippet logc "console.log colored"
+console.log('%c$1', 'background:$2', $3);$0
+endsnippet
+
 snippet dir "console.dir() call"
 console.dir($1);$0
+endsnippet
+
+snippet group "console.groupCollapsed() block"
+console.groupCollapsed('$1');
+console.log($2);
+console.groupEnd();$0
+endsnippet
+
+snippet trace "console.trace() call"
+console.trace();$0
 endsnippet
 
 snippet debug "insert debugger statement" b
