@@ -27,3 +27,9 @@ endsnippet
 snippet debug "insert debugger statement" b
 debugger;$0
 endsnippet
+
+snippet time "measure time that some code takes to run"
+const startTimeMs = performance.now();
+${0:${VISUAL:code here}}
+console.log('$1: %fms', performance.now() - startTimeMs);
+endsnippet
