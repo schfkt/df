@@ -18,12 +18,12 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'mhinz/vim-signify'
 Plugin 'tpope/vim-commentary'
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-surround' " TODO: Remove? Don't use it much
 Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'pangloss/vim-javascript'
 Plugin 'editorconfig/editorconfig-vim'
-Plugin 'mattn/emmet-vim'
+Plugin 'mattn/emmet-vim' " TODO: Remove? Don't do frontend stuff
 Plugin 'dense-analysis/ale'
 Plugin 'leafoftree/vim-vue-plugin'
 Plugin 'SirVer/ultisnips'
@@ -219,6 +219,11 @@ nnoremap <leader>bl :Lines<cr>
 " Search & Replace
 nnoremap <leader>sc :CtrlSFClose<cr>
 nnoremap <leader>sf :CtrlSF -filetype
+
+nnoremap <leader>smf :CtrlSF "FIXME:"<cr>
+nnoremap <leader>smn :CtrlSF "NOTE:"<cr>
+nnoremap <leader>smt :CtrlSF "TODO:"<cr>
+
 nnoremap <leader>so :CtrlSFOpen<cr>
 nnoremap <leader>sp :CtrlSF -R ""<left>
 nnoremap <leader>sr :.,$s/\<<C-r><C-w>\>//gc<left><left><left>
@@ -238,6 +243,13 @@ let g:which_key_map.s = {
       \ 'w' : 'search-word',
       \ }
 
+let g:which_key_map.s.m = {
+      \ 'name' : '+marks',
+      \ 'f' : 'FIXME',
+      \ 'n' : 'NOTE',
+      \ 't' : 'TODO',
+      \}
+
 " Git
 nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gc :Gcommit<cr>
@@ -245,6 +257,7 @@ nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gf :Gfetch<cr>
 nnoremap <leader>gh :SignifyHunkDiff<cr>
 nnoremap <leader>gl :Glog --<cr>
+nnoremap <leader>gp Gpush origin HEAD<cr>
 nnoremap <leader>gs :vertical Gstatus<cr>
 nnoremap <leader>gu :SignifyHunkUndo<cr>
 
@@ -256,6 +269,7 @@ let g:which_key_map.g = {
       \ 'f' : 'fetch',
       \ 'h' : 'hunk-diff',
       \ 'l' : 'log',
+      \ 'p' : 'push',
       \ 's' : 'status',
       \ 'u' : 'undo-hunk',
       \ }
@@ -265,10 +279,15 @@ nnoremap <leader>rd :YcmCompleter GetDoc<cr>
 nnoremap <leader>rf :YcmCompleter FixIt<cr>
 nnoremap <leader>rg :YcmCompleter GoToDefinition<cr>
 nnoremap <leader>ri :YcmCompleter GoToType<cr>
-nnoremap <leader>rr :YcmCompleter RefactorRename <C-r><C-w><space>
+nnoremap <leader>rr :YcmCompleter RefactorRename <C-r><C-w>
 nnoremap <leader>rt :YcmCompleter GetType<cr>
 nnoremap <leader>ru :YcmCompleter GoToReferences<cr>
 nnoremap <leader>rv :vsplit \| YcmCompleter GoToDefinition<cr>
+nnoremap <leader>rb :tab split \| YcmCompleter GoToDefinition<cr>
+
+" TODO: custom wrapper for ycm:
+" - close search window
+" - call ycm
 
 let g:which_key_map.r = {
       \ 'name' : '+reference',
@@ -298,20 +317,26 @@ let g:which_key_map.c = {
       \ }
 
 " Window-related commands
+nnoremap <leader>wo :call MyWindowCodeOnly()<cr>
 nnoremap <leader>wz :wincmd _<cr>:wincmd \|<cr>
 
 let g:which_key_map.w = {
       \ 'name' : '+window',
+      \ 'o' : 'only-code',
       \ 'z' : 'zoom',
       \ }
 
 " Tmux interactions
 " TODO: add more https://github.com/christoomey/vim-tmux-runner/blob/master/doc/vim-tmux-runner.txt
-nnoremap <leader>tf :VtrSendFile<cr>
+nnoremap <leader>ta :VtrAttachToPane<cr>
+nnoremap <leader>tf :VtrSendFile!<cr>
+nnoremap <leader>to :VtrOpenRunner<cr>
 
 let g:which_key_map.t = {
       \ 'name' : '+tmux',
+      \ 'a' : 'attach-to-pane',
       \ 'f' : 'send-file',
+      \ 'o' : 'open-runner',
       \ }
 
 " Plugin setup
@@ -336,6 +361,22 @@ augroup configgroup
   autocmd FileType html,vue,javascript EmmetInstall
 augroup END
 
+augroup custom_functions
+  autocmd!
+
+  function MyGoToReferences()
+    execute "CtrlSFClose"
+    execute "YcmCompleter GoToReferences"
+  endfunction
+
+  function MyWindowCodeOnly()
+    " Close windows that don't contain code itself
+    " i.e. QuickFix window, CtrlSF search result
+    execute "cclose"
+    execute "CtrlSFClose"
+  endfunction
+augroup END
+
 
 " ------------------------------------------------------------------------------
 " Settings for plugins
@@ -356,7 +397,7 @@ let g:ale_sign_warning = '⚠'
 highlight ALEErrorSign ctermbg=NONE ctermfg=red
 highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
 
-" Only neable linters specified by ale_linters map
+" Only enable linters specified by ale_linters map
 let g:ale_linters_explicit = 1
 
 let g:ale_linters = {
@@ -399,7 +440,16 @@ let g:UltiSnipsJumpForwardTrigger = '<C-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 
 " vim-tmux-runner
+let g:VtrOrientation = "h"
+let g:VtrPercentage = 40
+
 let g:vtr_filetype_runner_overrides = {
-      \ 'rust': 'rustc {file}'
+      \ 'rust': 'rustc {file}',
+      \ 'typescript': '~/Dropbox/df/bin/tmux-exec-file.sh {file}',
+      \ 'javascript': '~/Dropbox/df/bin/tmux-exec-file.sh {file}',
+      \ 'go': '~/Dropbox/df/bin/tmux-exec-file.sh {file}',
       \ }
 
+" YouCompleteMe
+" Don't close QuickFix window
+autocmd User YcmQuickFixOpened autocmd! ycmquickfix WinLeave
