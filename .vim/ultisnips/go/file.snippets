@@ -1,0 +1,15 @@
+snippet fopen "os.Open shortcut"
+$1, err := os.Open($2)
+if err != nil {
+	return fmt.Errorf("$3: %v", err)
+}
+defer $1.Close()$0
+endsnippet
+
+snippet fcreate "os.Create shortcut"
+$1, err := os.Create($2)
+if err != nil {
+	return fmt.Errorf("$3: %v", err)
+}
+defer $1.Close()
+endsnippet

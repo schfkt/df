@@ -1,0 +1,15 @@
+snippet ff "fmt.printf"
+fmt.Printf("$1\n", $2)$0
+endsnippet
+
+snippet ffs "fmt.printf for struct"
+fmt.Printf("$1 %+v\n", $2)$0
+endsnippet
+
+snippet fln "fmt.Println"
+fmt.Println("$1", $2)$0
+endsnippet
+
+snippet fef "fmt.Errorf"
+fmt.Errorf("$1: %${2:w}", err$3)$0
+endsnippet

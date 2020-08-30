@@ -1,3 +1,21 @@
+global !p
+import random
+import itertools
+
+def rand_color_hex():
+	nums =["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f"]
+	color = ""
+	for _ in itertools.repeat(None, 6):
+		color += random.choice(nums)
+	return color
+
+def invert_color(color):
+	r = hex(255 - int(color[:2], 16)).lstrip("0x")
+	g = hex(255 - int(color[2:4], 16)).lstrip("0x")
+	b = hex(255 - int(color[4:6], 16)).lstrip("0x")
+	return r.rjust(2, "0") + g.rjust(2, "0") + b.rjust(2, "0")
+endglobal
+
 snippet log "console.log() call"
 console.log($1);$0
 endsnippet
@@ -7,7 +25,7 @@ console.log('$1', JSON.stringify($2, null, 2));$0
 endsnippet
 
 snippet logc "console.log colored"
-console.log('%c$1', 'background:$2', $3);$0
+console.log('%c$1', 'background:#${2:`!p if not snip.c: snip.rv = rand_color_hex()`};color:#`!p if not snip.c: snip.rv = invert_color(t[2])`;padding:3px 5px;border-radius:5px;font-weight:bold', $3);$0
 endsnippet
 
 snippet dir "console.dir() call"
