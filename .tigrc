@@ -1,19 +1,24 @@
-# Change the default commit binding
+# common
+set split-view-width = 60%
+
+# main view
+bind main R ?git revert %(commit)
+bind main P ?git push -u origin HEAD
+bind main U ?sh -c "git fetch && git merge origin/master"
+
+# status view
 bind status C none
 bind status C !git commit -v
-
-# Amend last commit
 bind status + !git commit --amend
+bind status P ?git push -u origin HEAD
+# bind status H set vertical-split = no
 
-# Push local changes in the current branch into origin
-bind status P !git push origin HEAD
-
-# Vim-like keybindings
+# vim-like keybindings for movements
 bind generic g none
 bind generic gg move-first-line
 bind generic G none
 bind generic G move-last-line
 
-# Set the other bindings for the overridden actions
+# set the other bindings for the overridden actions
 bind generic v none
 bind generic vg view-grep

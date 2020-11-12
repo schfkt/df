@@ -257,7 +257,7 @@ nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gf :Gfetch<cr>
 nnoremap <leader>gh :SignifyHunkDiff<cr>
 nnoremap <leader>gl :Glog --<cr>
-nnoremap <leader>gp Gpush origin HEAD<cr>
+nnoremap <leader>gp :Gpush -u origin HEAD<cr>
 nnoremap <leader>gs :vertical Gstatus<cr>
 nnoremap <leader>gu :SignifyHunkUndo<cr>
 
