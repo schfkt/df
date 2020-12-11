@@ -1,0 +1,27 @@
+#!/bin/bash
+
+REPO_ROOT=$(git rev-parse --show-toplevel)
+if [ -z "${REPO_ROOT}" ]; then
+  echo "Not in a git repo, aborting..."
+  exit 1
+fi
+
+BRANCH=$(git branch --show-current)
+if [ -z "${BRANCH}" ]; then
+  echo "Not on a branch, aborting..."
+  exit 1
+fi
+
+git fetch
+git merge origin/${BRANCH}
+git merge origin/master
+
+if [ -f "${REPO_ROOT}/go.mod" ]; then
+  go mod download
+  go mod tidy
+fi
+
+if [ -f "${REPO_ROOT}/package.json" ]; then
+  yarn
+fi
+

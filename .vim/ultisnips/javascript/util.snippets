@@ -1,3 +1,9 @@
 snippet json "JSON.stringify call"
 JSON.stringify($1, null, 2)$0
 endsnippet
+
+snippet promise "new Promise call"
+new Promise((resolve, reject) => {
+	$0
+});
+endsnippet
