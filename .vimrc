@@ -219,6 +219,7 @@ nnoremap <leader>bl :Lines<cr>
 " Search & Replace
 nnoremap <leader>sc :CtrlSFClose<cr>
 nnoremap <leader>sf :CtrlSF -filetype
+nnoremap <leader>si :Rg<cr>
 
 nnoremap <leader>smf :CtrlSF "FIXME:"<cr>
 nnoremap <leader>smn :CtrlSF "NOTE:"<cr>
@@ -235,6 +236,7 @@ let g:which_key_map.s = {
       \ 'name' : '+search',
       \ 'c' : 'close-window',
       \ 'f' : 'filetype',
+      \ 'i' : 'interactive',
       \ 'o' : 'open-window',
       \ 'p' : 'pattern',
       \ 'r' : 'replace-word',
@@ -303,17 +305,29 @@ let g:which_key_map.r = {
 
 " Other code-related actions
 nnoremap <leader>cf :ALEFix<cr>
+
+" Copy file and line number under cursor to system clipboard (+ register)
+nnoremap <silent> <leader>cl :let @+ = join([expand('%'), line(".")], ':')<cr>
+
 nnoremap <leader>cm :Marks<cr>
-nnoremap <leader>cs :Snippets<cr>
+
+nnoremap <leader>csl :Snippets<cr>
+nnoremap <leader>csr :call UltiSnips#RefreshSnippets()<cr>
+
 nnoremap <leader>cr :YcmRestartServer<cr>
-" TODO: :call UltiSnips#RefreshSnippets()
 
 let g:which_key_map.c = {
       \ 'name' : '+code',
       \ 'f' : 'fix',
+      \ 'l' : 'location',
       \ 'm' : 'marks',
-      \ 's' : 'snippets',
       \ 'r' : 'restart-ycm-server',
+      \ }
+
+let g:which_key_map.c.s = {
+      \ 'name' : '+snippets',
+      \ 'l' : 'list',
+      \ 'r' : 'refresh',
       \ }
 
 " Window-related commands
