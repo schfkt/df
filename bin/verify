@@ -1,0 +1,16 @@
+#!/bin/bash
+
+REPO_ROOT=$(git rev-parse --show-toplevel)
+if [ -z "${REPO_ROOT}" ]; then
+  echo "Not in a git repo, aborting..."
+  exit 1
+fi
+
+if [ -f "${REPO_ROOT}/go.mod" ]; then
+  semgrep --config=r/go.lang
+fi
+
+if [ -f "${REPO_ROOT}/package.json" ]; then
+  semgrep --config=r/javascript.lang
+fi
+

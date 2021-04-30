@@ -77,6 +77,16 @@ function gc() {
     history -s "${cmd[@]}"
     "${cmd[@]}"
   fi
+
+  local repo_root=$(git rev-parse --show-toplevel)
+  if [ -f "${repo_root}/go.mod" ]; then
+    go mod download
+    go mod tidy
+  fi
+
+  if [ -f "${repo_root}/package.json" ]; then
+    yarn
+  fi
 }
 
 function j() {
@@ -129,7 +139,7 @@ function kdesc() {
 function klogs() {
   local pod=$(kubectl get pod | grep -v NAME | fzf | cut -d " " -f 1)
   if [ -n "$pod" ]; then
-    local kube_cmd=(kubectl logs -f --tail=10 "$pod")
+    local kube_cmd=(kubectl logs -f --tail=20 "$pod")
     echo "${kube_cmd[@]}"
     history -s "${kube_cmd[@]}"
     "${kube_cmd[@]}"

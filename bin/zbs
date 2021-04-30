@@ -1,5 +1,20 @@
 #!/bin/bash
 
+SHOULD_REBASE=false
+SHOULD_PUSH=false
+SHOULD_PUSH_FORCE=false
+
+while getopts 'rpf' opt; do
+  case $opt in
+    r) SHOULD_REBASE=true ;;
+    p) SHOULD_PUSH=true ;;
+    f) SHOULD_PUSH_FORCE=true ;;
+    *) echo 'Error in command line parsing' >&2
+      exit 1
+  esac
+done
+shift "$(( OPTIND - 1 ))"
+
 REPO_ROOT=$(git rev-parse --show-toplevel)
 if [ -z "${REPO_ROOT}" ]; then
   echo "Not in a git repo, aborting..."
@@ -13,8 +28,35 @@ if [ -z "${BRANCH}" ]; then
 fi
 
 git fetch
-git merge origin/${BRANCH}
-git merge origin/master
+
+if [ "${SHOULD_REBASE}" == "true" ]; then
+  if ! git rebase origin/${BRANCH}; then
+    echo Rebase onto upstream failed, fix the conflicts first
+    exit 1
+  fi
+  if ! git rebase origin/master; then
+    echo Rebase onto master failed, fix the conflicts first
+    exit 1
+  fi
+else
+  if ! git merge origin/${BRANCH}; then
+    echo Merge with upstream failed, fix the conflicts first
+    exit 1
+  fi
+  if ! git merge origin/master; then
+    echo Merge with master failed, fix the conflicts first
+    exit 1
+  fi
+fi
+
+if [ "${SHOULD_PUSH}" == "true" ]; then
+  if [ "${SHOULD_PUSH_FORCE}" == "true" ]; then
+    echo "Warning! Push with --force flag"
+    git push -f origin HEAD
+  else
+    git push origin HEAD
+  fi
+fi
 
 if [ -f "${REPO_ROOT}/go.mod" ]; then
   go mod download
