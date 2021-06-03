@@ -12,13 +12,12 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'ycm-core/YouCompleteMe'
-Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tpope/vim-fugitive'
 Plugin 'mhinz/vim-signify'
 Plugin 'tpope/vim-commentary'
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'tpope/vim-surround' " TODO: Remove? Don't use it much
 Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'pangloss/vim-javascript'
@@ -254,12 +253,12 @@ let g:which_key_map.s.m = {
 
 " Git
 nnoremap <leader>gb :Gblame<cr>
-nnoremap <leader>gc :Gcommit<cr>
+nnoremap <leader>gc :Git commit<cr>
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gf :Gfetch<cr>
 nnoremap <leader>gh :SignifyHunkDiff<cr>
 nnoremap <leader>gl :Glog --<cr>
-nnoremap <leader>gp :Gpush -u origin HEAD<cr>
+nnoremap <leader>gp :Git push -u origin HEAD<cr>
 nnoremap <leader>gs :vertical Gstatus<cr>
 nnoremap <leader>gu :SignifyHunkUndo<cr>
 
