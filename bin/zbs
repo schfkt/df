@@ -39,11 +39,11 @@ if [ "${SHOULD_REBASE}" == "true" ]; then
     exit 1
   fi
 else
-  if ! git merge origin/${BRANCH}; then
+  if ! git merge --no-edit origin/${BRANCH}; then
     echo Merge with upstream failed, fix the conflicts first
     exit 1
   fi
-  if ! git merge origin/master; then
+  if ! git merge --no-edit origin/master; then
     echo Merge with master failed, fix the conflicts first
     exit 1
   fi

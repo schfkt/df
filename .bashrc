@@ -6,7 +6,7 @@ fi
 # Env variables
 export LC_ALL=en_US.UTF-8
 export EDITOR=vim
-export PATH="$HOME/.cargo/bin:$HOME/bin:$PATH"
+export PATH="$HOME/go/bin:$HOME/.cargo/bin:$HOME/bin:$PATH"
 export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on"
 export NVM_DIR="$HOME/.nvm"
 
@@ -82,6 +82,10 @@ function gc() {
   if [ -f "${repo_root}/go.mod" ]; then
     go mod download
     go mod tidy
+  fi
+
+  if [ -f "${repo_root}/.nvmrc" ]; then
+    nvm use
   fi
 
   if [ -f "${repo_root}/package.json" ]; then

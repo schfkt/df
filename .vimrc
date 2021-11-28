@@ -252,14 +252,14 @@ let g:which_key_map.s.m = {
       \}
 
 " Git
-nnoremap <leader>gb :Gblame<cr>
+nnoremap <leader>gb :Git blame<cr>
 nnoremap <leader>gc :Git commit<cr>
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gf :Gfetch<cr>
 nnoremap <leader>gh :SignifyHunkDiff<cr>
 nnoremap <leader>gl :Glog --<cr>
 nnoremap <leader>gp :Git push -u origin HEAD<cr>
-nnoremap <leader>gs :vertical Gstatus<cr>
+nnoremap <leader>gs :vertical Git<cr>
 nnoremap <leader>gu :SignifyHunkUndo<cr>
 
 let g:which_key_map.g = {
@@ -430,6 +430,7 @@ let g:ale_fixers = {
 \   'html': ['prettier'],
 \   'go': ['gofmt'],
 \   'json': ['jq'],
+\   'sh': ['shfmt'],
 \}
 
 " editorconfig-vim
