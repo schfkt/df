@@ -1,0 +1,18 @@
+{
+  "gitlab": {
+    "url": "https://gitlab.com",
+    "projects": [
+      "some/project",
+      "package/cool"
+    ]
+  },
+  "loki": {
+    "url": "https://grafana.com",
+    "orgId": 1,
+    "interval": "15m",
+    "dataSource": "Loki",
+    "services": [
+      "test-app"
+    ]
+  }
+}
