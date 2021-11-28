@@ -1,0 +1,48 @@
+#!/usr/bin/env node
+// set: ft=javascript
+
+function digitToEmoji(digit) {
+  switch (digit) {
+    case '1': return ':one:';
+    case '2': return ':two:';
+    case '3': return ':three:';
+    case '4': return ':four:';
+    case '5': return ':five:';
+    case '6': return ':six:';
+    case '7': return ':seven:';
+    case '8': return ':eight:';
+    case '9': return ':nine:';
+    case '0': return ':zero:';
+  }
+}
+
+const specialChars = /[-?!]/
+
+function specialCharToEmoji(char) {
+  switch (char) {
+    case '-': return ':heavy_minus_sign:';
+    case '?': return ':alphabet-white-question:';
+    case '!': return ':alphabet-white-exclamation:';
+  }
+}
+
+function convertToEmoji(text) {
+  return text.split('').map((symbol) => {
+    if (/\s/.test(symbol)) {
+      return `${symbol}${symbol}`;
+    } else if (/\d/.test(symbol)) {
+      return digitToEmoji(symbol);
+    } else if (specialChars.test(symbol)) {
+      return specialCharToEmoji(symbol);
+    }
+    return `:alphabet-white-${symbol.toLowerCase()}:`
+  }).join('');
+}
+
+function main() {
+  const text = process.argv.slice(2).join(' ');
+  const emoji = convertToEmoji(text);
+  console.log(emoji);
+}
+
+main();
