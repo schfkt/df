@@ -4,7 +4,7 @@
 
 call plug#begin('~/.vim/bundle')
 
-Plug 'scrooloose/nerdtree'
+Plug 'preservim/nerdtree'
 Plug 'ycm-core/YouCompleteMe'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -17,13 +17,10 @@ Plug 'tpope/vim-unimpaired'
 Plug 'pangloss/vim-javascript'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'dense-analysis/ale'
-Plug 'leafoftree/vim-vue-plugin'
 Plug 'SirVer/ultisnips'
 Plug 'dyng/ctrlsf.vim'
-Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'liuchengxu/vim-which-key'
 Plug 'leafgarland/typescript-vim'
-Plug 'ianks/vim-tsx'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'christoomey/vim-tmux-runner'
