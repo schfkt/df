@@ -11,9 +11,9 @@ fi
 
 echo "Updating VIM and it's plugins..."
 if [[ $OSTYPE =~ ^darwin ]]; then
-  vim +PluginUpdate +qall
+  vim +PlugUpdate +PlugUpgrade +qall
 elif [[ $OSTYPE =~ ^linux ]]; then
-  vimx +PluginUpdate +qall
+  vimx +PlugUpdate +PlugUpgrade +qall
 fi
 cd ~/.vim/bundle/YouCompleteMe
 ./install.py --clang-completer --go-completer --ts-completer --rust-completer

@@ -1,51 +1,40 @@
-set nocompatible
-filetype off
-
-
 " ------------------------------------------------------------------------------
 " Plugins
 " ------------------------------------------------------------------------------
 
-set rtp+=~/.vim/bundle/Vundle.vim/
-call vundle#begin()
+call plug#begin('~/.vim/bundle')
 
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'ycm-core/YouCompleteMe'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'tpope/vim-fugitive'
-Plugin 'mhinz/vim-signify'
-Plugin 'tpope/vim-commentary'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'tpope/vim-endwise'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'pangloss/vim-javascript'
-Plugin 'editorconfig/editorconfig-vim'
-Plugin 'mattn/emmet-vim' " TODO: Remove? Don't do frontend stuff
-Plugin 'dense-analysis/ale'
-Plugin 'leafoftree/vim-vue-plugin'
-Plugin 'SirVer/ultisnips'
-Plugin 'dyng/ctrlsf.vim'
-Plugin 'MaxMEllon/vim-jsx-pretty'
-Plugin 'liuchengxu/vim-which-key'
-Plugin 'leafgarland/typescript-vim'
-Plugin 'ianks/vim-tsx'
-Plugin 'junegunn/fzf'
-Plugin 'junegunn/fzf.vim'
-Plugin 'christoomey/vim-tmux-runner'
-Plugin 'godlygeek/tabular'
+Plug 'scrooloose/nerdtree'
+Plug 'ycm-core/YouCompleteMe'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'tpope/vim-fugitive'
+Plug 'mhinz/vim-signify'
+Plug 'tpope/vim-commentary'
+Plug 'altercation/vim-colors-solarized'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-unimpaired'
+Plug 'pangloss/vim-javascript'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'dense-analysis/ale'
+Plug 'leafoftree/vim-vue-plugin'
+Plug 'SirVer/ultisnips'
+Plug 'dyng/ctrlsf.vim'
+Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'liuchengxu/vim-which-key'
+Plug 'leafgarland/typescript-vim'
+Plug 'ianks/vim-tsx'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'christoomey/vim-tmux-runner'
+Plug 'godlygeek/tabular'
 
-call vundle#end()
+call plug#end()
 
 
 " ------------------------------------------------------------------------------
 " General settings
 " ------------------------------------------------------------------------------
-
-filetype plugin on  " Load filetype-specific plugin files
-filetype indent on  " Load filetype-specific indent files
-syntax on           " Enable syntax highlighting
 
 set encoding=utf-8
 
@@ -370,9 +359,6 @@ augroup configgroup
 
   " Disable automatic comment insertion
   autocmd BufNewFile,BufRead * setlocal formatoptions-=cro
-
-  " Enable Emmet only for specific files
-  autocmd FileType html,vue,javascript EmmetInstall
 augroup END
 
 augroup custom_functions
@@ -436,9 +422,6 @@ let g:ale_fixers = {
 
 " editorconfig-vim
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
-
-" emmet-vim
-let g:user_emmet_install_global = 0
 
 " NERDTree
 let g:NERDTreeShowHidden = 1
