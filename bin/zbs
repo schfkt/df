@@ -3,12 +3,14 @@
 SHOULD_REBASE=false
 SHOULD_PUSH=false
 SHOULD_PUSH_FORCE=false
+SHOULD_RUN_TESTS=false
 
-while getopts 'rpf' opt; do
+while getopts 'rpft' opt; do
   case $opt in
     r) SHOULD_REBASE=true ;;
     p) SHOULD_PUSH=true ;;
     f) SHOULD_PUSH_FORCE=true ;;
+    t) SHOULD_RUN_TESTS=true ;;
     *) echo 'Error in command line parsing' >&2
       exit 1
   esac
@@ -46,6 +48,15 @@ else
   if ! git merge --no-edit origin/master; then
     echo Merge with master failed, fix the conflicts first
     exit 1
+  fi
+fi
+
+if [ "${SHOULD_RUN_TESTS}" == "true" ]; then
+  if [ -f "${REPO_ROOT}/go.mod" ]; then
+    make test
+  fi
+  if [ -f "${REPO_ROOT}/package.json" ]; then
+    yarn test
   fi
 fi
 
