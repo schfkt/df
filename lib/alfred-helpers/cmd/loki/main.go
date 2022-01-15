@@ -1,11 +1,11 @@
 package main
 
 import (
+	"alfred-helpers/packages/alfred"
+	"alfred-helpers/packages/config"
 	"fmt"
 	"net/url"
 	"os"
-	"alfred-helpers/packages/alfred"
-	"alfred-helpers/packages/config"
 
 	"github.com/lithammer/fuzzysearch/fuzzy"
 )

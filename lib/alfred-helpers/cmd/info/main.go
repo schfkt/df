@@ -9,27 +9,27 @@ import (
 	"github.com/lithammer/fuzzysearch/fuzzy"
 )
 
-func buildFindFileUrl(baseUrl, project string) string {
-	return fmt.Sprintf("%s/%s/-/find_file/master", baseUrl, project)
-}
-
 func main() {
-	config := config.LoadConfig().GitLab
+	config := config.LoadConfig().Info
 
-	if len(os.Args) < 2 {
+	if len(os.Args) < 3 {
 		return
 	}
-	arg := os.Args[1]
+	env := os.Args[1]
+	if len(env) == 0 {
+		return
+	}
+	arg := os.Args[2]
 	if len(arg) == 0 {
 		return
 	}
 
-	matches := fuzzy.Find(arg, config.Projects)
+	matches := fuzzy.Find(arg, config.Services)
 
 	items := make([]alfred.Item, len(matches))
 	for i, match := range matches {
 		items[i].Title = match
-		items[i].Arg = buildFindFileUrl(config.URL, match)
+		items[i].Arg = fmt.Sprintf("https://%s.%s.%s/info", match, env, config.Domain)
 	}
 	result := alfred.BuildOutput(items)
 

@@ -14,5 +14,9 @@ ff:
 loki:
 	go build -o bin/loki cmd/loki/main.go
 
+.PHONY: info
+info:
+	go build -o bin/info cmd/info/main.go
+
 .PHONY: build
-build: ff loki
+build: ff loki info

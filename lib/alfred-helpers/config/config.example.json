@@ -14,5 +14,15 @@
     "services": [
       "test-app"
     ]
+  },
+  "info": {
+    "envs": [
+      "dev",
+      "prod"
+    ],
+    "domain": "example.com",
+    "services": [
+      "test"
+    ]
   }
 }
