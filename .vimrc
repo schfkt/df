@@ -34,6 +34,7 @@ Plugin 'ianks/vim-tsx'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 Plugin 'christoomey/vim-tmux-runner'
+Plugin 'godlygeek/tabular'
 
 call vundle#end()
 
