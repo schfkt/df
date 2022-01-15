@@ -3,3 +3,14 @@ for $1 in {$2..$3}; do
   $0
 done
 endsnippet
+
+snippet getopts "bootstrap getopts"
+while getopts 'h' opt; do
+  case $opt in
+    h) echo 'help' ;;
+    *) echo 'Error in command line parsing' >&2
+      exit 1
+  esac
+done
+shift "$(( OPTIND - 1 ))"
+endsnippet

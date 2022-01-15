@@ -1,9 +1,3 @@
-snippet iferr "if err block with Errrof return"
-if err != nil {
-	return $1fmt.Errorf("$2: %${3:w}", err)$0
-}
-endsnippet
-
 snippet struct "struct definition block"
 type $1 struct {
 	$0

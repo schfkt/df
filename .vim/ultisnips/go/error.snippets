@@ -1,0 +1,9 @@
+snippet iferr "if err block"
+if err != nil {
+	return $1err$0
+}
+endsnippet
+
+snippet errw "errors.Wrap call"
+errors.Wrap(err, "$1")$0
+endsnippet
