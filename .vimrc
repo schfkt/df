@@ -339,6 +339,20 @@ let g:which_key_map.t = {
       \ 'o' : 'open-runner',
       \ }
 
+" Linter
+nnoremap <leader>lo :lopen<cr>
+nnoremap <leader>lc :lclose<cr>
+nnoremap <leader>ln :lnext<cr>
+nnoremap <leader>lp :lprevious<cr>
+
+let g:which_key_map.l = {
+      \ 'name' : '+linter',
+      \ 'c' : 'close-list',
+      \ 'n' : 'next-error',
+      \ 'o' : 'open-list',
+      \ 'p' : 'previous-error',
+      \ }
+
 " Plugin setup
 call which_key#register('\', "g:which_key_map")
 nnoremap <silent> <leader> :<c-u>WhichKey '\'<CR>
@@ -412,7 +426,7 @@ let g:ale_fixers = {
 \   'typescript.tsx': ['prettier', 'tslint'],
 \   'vue': ['eslint'],
 \   'html': ['prettier'],
-\   'go': ['gofmt'],
+\   'go': ['gofmt', 'goimports'],
 \   'json': ['jq'],
 \   'sh': ['shfmt'],
 \}
