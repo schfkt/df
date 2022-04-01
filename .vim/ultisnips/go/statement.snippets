@@ -9,3 +9,23 @@ type $1 interface {
 	$0
 }
 endsnippet
+
+snippet forr "for loop with range"
+for $1 := range $2 {
+	$0
+}
+endsnippet
+
+snippet fori "for loop with counter"
+for i := $1; i < $2; i++ {
+	$0
+}
+endsnippet
+
+snippet switch "normal switch"
+switch $1 {
+case $2:
+	$3
+default:$0
+}
+endsnippet
