@@ -3,7 +3,24 @@ if [ -f /etc/bashrc ]; then
   . /etc/bashrc
 fi
 
+# Bash settings
+
+# don't put duplicate lines or lines starting with space in the history.
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
 # Env variables
+
 export LC_ALL=en_US.UTF-8
 export EDITOR=vim
 export PATH="$HOME/go/bin:$HOME/.cargo/bin:$HOME/bin:$PATH"
