@@ -38,12 +38,13 @@ if [[ $OSTYPE =~ ^darwin ]]; then
   . /usr/local/opt/nvm/nvm.sh
   . /usr/local/opt/nvm/etc/bash_completion.d/nvm
 elif [[ $OSTYPE =~ ^linux ]]; then
-  export SSH_ASKPASS=/usr/bin/ksshaskpass
-
   alias open=xdg-open
-  alias vim=vimx
 
-  . /usr/share/git-core/contrib/completion/git-prompt.sh
+  . /etc/bash_completion.d/git-prompt
+
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  fi
 
   . "$NVM_DIR/nvm.sh"
   . "$NVM_DIR/bash_completion"
@@ -66,7 +67,7 @@ $ '
 alias kc=kubectl
 alias kx=kubectx
 alias kns=kubens
-alias ll='ls -lah'
+alias ll='ls -lah --color=auto'
 
 # Functions
 function yr() {
@@ -167,3 +168,12 @@ function klogs() {
   fi
 }
 
+function testw() {
+  local file=$(find . -type f -name '*_test.go' | fzf)
+  if [ -n "$file" ]; then
+    local cmd=(gow -c test "$file")
+    echo "${cmd[@]}"
+    history -s "${cmd[@]}"
+    "${cmd[@]}"
+  fi
+}
