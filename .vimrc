@@ -244,7 +244,7 @@ nnoremap <leader>gc :Git commit<cr>
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gf :Gfetch<cr>
 nnoremap <leader>gh :SignifyHunkDiff<cr>
-nnoremap <leader>gl :Glog --<cr>
+nnoremap <leader>gl :Gclog --<cr>
 nnoremap <leader>gp :Git push -u origin HEAD<cr>
 nnoremap <leader>gs :vertical Git<cr>
 nnoremap <leader>gu :SignifyHunkUndo<cr>

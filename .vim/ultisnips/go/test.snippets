@@ -9,3 +9,15 @@ t.Run("$1", func(t *testing.T) {
 	$0
 })
 endsnippet
+
+snippet ttable "insert a test table"
+tests := []struct{
+	$1
+}{
+	{$2},
+}
+
+for _, tc := range tests {
+	$0
+}
+endsnippet

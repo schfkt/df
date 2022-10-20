@@ -4,10 +4,20 @@ if err != nil {
 }
 endsnippet
 
+snippet iferr: "if err := some() block"
+if err := $1; err != nil {
+	return $2err$0
+}
+endsnippet
+
 snippet errw "errors.Wrap call"
 errors.Wrap(err, "$1")$0
 endsnippet
 
 snippet errf "fmt.Errorf call"
 fmt.Errorf("$1", $2)$0
+endsnippet
+
+snippet errn "errors.New"
+errors.New("$1")$0
 endsnippet
