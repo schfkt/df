@@ -20,7 +20,6 @@ HISTFILESIZE=2000
 shopt -s checkwinsize
 
 # Env variables
-
 export LC_ALL=en_US.UTF-8
 export EDITOR=vim
 export PATH="$HOME/go/bin:$HOME/.cargo/bin:$HOME/bin:$PATH"
@@ -31,12 +30,24 @@ export NVM_DIR="$HOME/.nvm"
 if [[ $OSTYPE =~ ^darwin ]]; then
   export BASH_SILENCE_DEPRECATION_WARNING=1
 
-  . /usr/local/etc/bash_completion
-  . /usr/local/etc/bash_completion.d/git-completion.bash
-  . /usr/local/etc/bash_completion.d/git-prompt.sh
+  if [ -f /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  fi
 
-  . /usr/local/opt/nvm/nvm.sh
-  . /usr/local/opt/nvm/etc/bash_completion.d/nvm
+  if [ -f /opt/homebrew/etc/bash_completion ]; then
+    . /opt/homebrew/etc/bash_completion
+    . /opt/homebrew/etc/bash_completion.d/git-completion.bash
+    . /opt/homebrew/etc/bash_completion.d/git-prompt.sh
+  elif [ -f /usr/local/etc/bash_completion ]; then
+    . /usr/local/etc/bash_completion
+    . /usr/local/etc/bash_completion.d/git-completion.bash
+    . /usr/local/etc/bash_completion.d/git-prompt.sh
+  fi
+
+  if [ -d /usr/local/opt/nvm ]; then
+    . /usr/local/opt/nvm/nvm.sh
+    . /usr/local/opt/nvm/etc/bash_completion.d/nvm
+  fi
 elif [[ $OSTYPE =~ ^linux ]]; then
   alias open=xdg-open
 
@@ -78,36 +89,6 @@ function yr() {
     echo "${cmd[@]}"
     history -s "${cmd[@]}"
     "${cmd[@]}"
-  fi
-}
-
-function gc() {
-  local arg=$1
-  if [ "$arg" == "-" ]; then
-    git checkout -
-    return
-  fi
-
-  local branch=$(git for-each-ref --format='%(refname:short)' refs/heads | fzf)
-  if [ -n "$branch" ]; then
-    local cmd=(git checkout "$branch")
-    echo "${cmd[@]}"
-    history -s "${cmd[@]}"
-    "${cmd[@]}"
-  fi
-
-  local repo_root=$(git rev-parse --show-toplevel)
-  if [ -f "${repo_root}/go.mod" ]; then
-    go mod download
-    go mod tidy
-  fi
-
-  if [ -f "${repo_root}/.nvmrc" ]; then
-    nvm use
-  fi
-
-  if [ -f "${repo_root}/package.json" ]; then
-    yarn
   fi
 }
 
@@ -165,6 +146,17 @@ function klogs() {
     echo "${kube_cmd[@]}"
     history -s "${kube_cmd[@]}"
     "${kube_cmd[@]}"
+  fi
+}
+
+function kdebug() {
+  local pod=$(kubectl get pod | grep -v NAME | fzf | cut -d " " -f 1)
+  if [ -n "$pod" ]; then
+    local node_pid=$(kubectl exec "$pod" ps aux | grep node | cut -f 2 -w)
+    echo "sending -SIGUSR1 to PID $node_pid"
+    kubectl exec "$pod" -- sh -c "kill -SIGUSR1 $node_pid"
+    echo "forwarding port 9229 to local machine"
+    kubectl port-forward "pod/$pod" 9229:9229
   fi
 }
 

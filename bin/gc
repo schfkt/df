@@ -1,0 +1,51 @@
+#!/bin/bash
+
+SHOULD_PULL=false
+
+while getopts 'l' opt; do
+	case $opt in
+	l) SHOULD_PULL=true ;;
+	esac
+done
+shift "$((OPTIND - 1))"
+
+function pull() {
+	if [ "${SHOULD_PULL}" == "true" ]; then
+		git pull || {
+			echo 'pull failed, aborting'
+			exit 1
+		}
+	fi
+}
+
+function checkout() {
+	local branch="$1"
+	if [ -z "$branch" ]; then
+		branch=$(git for-each-ref --format='%(refname:short)' refs/heads | fzf)
+	fi
+	git checkout "$branch" || {
+		echo 'checkout failed, aborting'
+		exit 1
+	}
+}
+
+function install() {
+	REPO_ROOT=$(git rev-parse --show-toplevel)
+	if [ -f "${REPO_ROOT}/go.mod" ]; then
+		go mod download
+		go mod tidy
+	fi
+
+	if [ -f "${REPO_ROOT}/.nvmrc" ]; then
+    . "$HOME/.nvm/nvm.sh"
+		nvm use
+	fi
+
+	if [ -f "${REPO_ROOT}/package.json" ]; then
+		yarn
+	fi
+}
+
+checkout "$1"
+pull
+install
