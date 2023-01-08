@@ -23,8 +23,8 @@ Plug 'liuchengxu/vim-which-key'
 Plug 'leafgarland/typescript-vim'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'christoomey/vim-tmux-runner'
 Plug 'godlygeek/tabular'
+Plug 'tweekmonster/startuptime.vim'
 
 call plug#end()
 
@@ -411,6 +411,7 @@ highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
 " Only enable linters specified by ale_linters map
 let g:ale_linters_explicit = 1
 
+" TODO: use LSPs - tsserver, gopls
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'typescript': ['tslint', 'eslint'],
@@ -462,3 +463,9 @@ let g:vtr_filetype_runner_overrides = {
 " YouCompleteMe
 " Don't close QuickFix window
 autocmd User YcmQuickFixOpened autocmd! ycmquickfix WinLeave
+
+function! s:CustomizeYcmQuickFixWindow()
+  10wincmd _
+endfunction
+
+autocmd User YcmQuickFixOpened call s:CustomizeYcmQuickFixWindow()
