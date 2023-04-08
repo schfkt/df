@@ -1,10 +1,10 @@
-snippet if "if" b
+snippet if "if"
 if ($1) {
 	$0
 }
 endsnippet
 
-snippet ife "if else" b
+snippet ife "if else"
 if ($1) {
 	$0
 } else {
@@ -23,38 +23,56 @@ else if ($1) {
 }
 endsnippet
 
-snippet ifn "if null" b
+snippet ifn "if null"
 if ($1 == null) {
 	$0
 }
 endsnippet
 
-snippet ifnn "if not null" b
+snippet ifnn "if not null"
 if ($1 != null) {
 	$0
 }
 endsnippet
 
-snippet forof "for of" b
+snippet forof "for of"
 for (const $1 of $2) {
 	$0
 }
 endsnippet
 
-snippet case "case block" b
+snippet case "case block"
 case $1:
 	$0
 	break;
 endsnippet
 
-snippet try "try-catch block" b
+snippet try "try-catch block"
 try {
 	$0
 } catch (err) {
 }
 endsnippet
 
-snippet func "function declaration" b
+snippet func "function declaration"
 function $1($2) {
+}
+endsnippet
+
+snippet afunc "async function declaration"
+async function $1($2)$3 {
+  $0
+}
+endsnippet
+
+snippet fori "for loop with counter"
+for (let i = $1; i < $2; i++) {
+	$0
+}
+endsnippet
+
+snippet forof "for of loop"
+for (const $1 of $2) {
+	$0
 }
 endsnippet
