@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/url"
 	"os"
+	"sort"
 
 	"github.com/lithammer/fuzzysearch/fuzzy"
 )
@@ -34,12 +35,13 @@ func main() {
 		return
 	}
 
-	matches := fuzzy.Find(arg, config.Services)
+	matches := fuzzy.RankFind(arg, config.Services)
+  sort.Sort(matches)
 
 	items := make([]alfred.Item, len(matches))
 	for i, match := range matches {
-		items[i].Title = match
-		items[i].Arg = buildLokiUrl(config, match)
+		items[i].Title = match.Target
+		items[i].Arg = buildLokiUrl(config, match.Target)
 	}
 	result := alfred.BuildOutput(items)
 

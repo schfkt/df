@@ -10,28 +10,28 @@ import (
 	"github.com/lithammer/fuzzysearch/fuzzy"
 )
 
-func main() {
-	config := config.LoadConfig().Info
+func buildSentryUrl(config config.Sentry, project string) string {
+  return fmt.Sprintf("%s/organizations/%s/projects/%s", config.URL, config.Org, project)
+}
 
-	if len(os.Args) < 3 {
+func main() {
+	config := config.LoadConfig().Sentry
+
+	if len(os.Args) < 2 {
 		return
 	}
-	env := os.Args[1]
-	if len(env) == 0 {
-		return
-	}
-	arg := os.Args[2]
+	arg := os.Args[1]
 	if len(arg) == 0 {
 		return
 	}
 
-	matches := fuzzy.RankFind(arg, config.Services)
-  sort.Sort(matches)
+	matches := fuzzy.RankFind(arg, config.Projects)
+	sort.Sort(matches)
 
 	items := make([]alfred.Item, len(matches))
 	for i, match := range matches {
 		items[i].Title = match.Target
-		items[i].Arg = fmt.Sprintf("https://%s.%s.%s/info", match.Target, env, config.Domain)
+		items[i].Arg = buildSentryUrl(config, match.Target)
 	}
 	result := alfred.BuildOutput(items)
 

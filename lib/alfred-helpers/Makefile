@@ -18,5 +18,9 @@ loki:
 info:
 	go build -o bin/info cmd/info/main.go
 
+.PHONY: sentry
+sentry:
+	go build -o bin/sentry cmd/sentry/main.go
+
 .PHONY: build
-build: ff loki info
+build: ff loki info sentry

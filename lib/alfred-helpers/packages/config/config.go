@@ -22,6 +22,12 @@ type Loki struct {
 	Services   []string
 }
 
+type Sentry struct {
+	URL      string
+	Org      string
+	Projects []string
+}
+
 type Info struct {
 	Envs     []string
 	Domain   string
@@ -32,6 +38,7 @@ type Config struct {
 	GitLab GitLab
 	Loki   Loki
 	Info   Info
+	Sentry Sentry
 }
 
 func LoadConfig() *Config {

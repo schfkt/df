@@ -24,5 +24,12 @@
     "services": [
       "test"
     ]
+  },
+  "sentry": {
+    "url": "https://sentry.io",
+    "org": "example",
+    "projects": [
+      "rocketship"
+    ]
   }
 }
