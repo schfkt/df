@@ -26,6 +26,7 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'godlygeek/tabular'
 Plug 'tweekmonster/startuptime.vim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 call plug#end()
 
@@ -196,7 +197,7 @@ let g:which_key_map.b = {
 
 nnoremap <leader>bb :Buffers<cr>
 nnoremap <leader>bl :Lines<cr>
-nnoremap <leader>bo :Neotree source=buffers reveal=true position=right<cr>
+nnoremap <leader>bo :Neotree toggle source=buffers reveal=true position=right<cr>
 
 " Search & Replace
 nnoremap <leader>sc :CtrlSFClose<cr>
@@ -239,11 +240,11 @@ nnoremap <leader>gb :Git blame<cr>
 nnoremap <leader>gc :Git commit<cr>
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gf :Gfetch<cr>
-nnoremap <leader>gh :SignifyHunkDiff<cr>
+nnoremap <leader>gh :Gitsigns preview_hunk<cr>
 nnoremap <leader>gl :Gclog --<cr>
 nnoremap <leader>gp :Git push -u origin HEAD<cr>
 nnoremap <leader>gs :vertical Git<cr>
-nnoremap <leader>gu :SignifyHunkUndo<cr>
+nnoremap <leader>gu :Gitsigns reset_hunk<cr>
 
 let g:which_key_map.g = {
       \ 'name' : '+git',
@@ -461,6 +462,7 @@ require("neo-tree").setup({
   filesystem = {
     filtered_items = {
       hide_dotfiles = false,
+      hide_gitignored = false,
     },
     follow_current_file = true,
     use_libuv_file_watcher = true,
@@ -471,6 +473,23 @@ require('lualine').setup({
   options = {
     theme = 'solarized_light'
   },
-  extensions = {'neo-tree'},
+  extensions = {'neo-tree', 'fugitive'},
+})
+require('nvim-treesitter.configs').setup({
+  highlight = {
+    enable = true,
+  },
+  ensure_installed = {
+    'lua',
+    'vim',
+    'help',
+    'javascript',
+    'typescript',
+    'tsx',
+    'css',
+    'json',
+    'go',
+    'dockerfile',
+  },
 })
 EOF

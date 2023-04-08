@@ -34,6 +34,7 @@ if [[ $OSTYPE =~ ^darwin ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
   fi
 
+  # bash
   if [ -f /opt/homebrew/etc/bash_completion ]; then
     . /opt/homebrew/etc/bash_completion
     . /opt/homebrew/etc/bash_completion.d/git-completion.bash
@@ -44,9 +45,22 @@ if [[ $OSTYPE =~ ^darwin ]]; then
     . /usr/local/etc/bash_completion.d/git-prompt.sh
   fi
 
+  # nvm
   if [ -d /usr/local/opt/nvm ]; then
     . /usr/local/opt/nvm/nvm.sh
     . /usr/local/opt/nvm/etc/bash_completion.d/nvm
+  elif [ -d /opt/homebrew/opt/nvm ]; then
+    . /opt/homebrew/opt/nvm/nvm.sh
+    . /opt/homebrew/opt/nvm/etc/bash_completion.d/nvm
+  fi
+
+  # fzf
+  if [ -d /opt/homebrew/opt/fzf/shell ]; then
+    . /opt/homebrew/opt/fzf/shell/key-bindings.bash
+    . /opt/homebrew/opt/fzf/shell/completion.bash
+  elif [ -d /usr/local/opt/fzf/shell ]; then
+    . /usr/local/opt/fzf/shell/key-bindings.bash
+    . /usr/local/opt/fzf/shell/completion.bash
   fi
 elif [[ $OSTYPE =~ ^linux ]]; then
   alias open=xdg-open
@@ -59,6 +73,11 @@ elif [[ $OSTYPE =~ ^linux ]]; then
 
   . "$NVM_DIR/nvm.sh"
   . "$NVM_DIR/bash_completion"
+
+  # fzf
+  if [ -d /usr/share/doc/fzf/examples ]; then
+    . /usr/share/doc/fzf/examples/key-bindings.bash
+  fi
 fi
 
 # Completions
