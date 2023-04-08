@@ -6,15 +6,12 @@ if [[ $OSTYPE =~ ^darwin ]]; then
   brew upgrade
   brew bundle
 elif [[ $OSTYPE =~ ^linux ]]; then
-  sudo dnf update
+  sudo apt update
+  sudo apt upgrade -y
 fi
 
 echo "Updating VIM and it's plugins..."
-if [[ $OSTYPE =~ ^darwin ]]; then
-  vim +PlugUpdate +PlugUpgrade +qall
-elif [[ $OSTYPE =~ ^linux ]]; then
-  vimx +PlugUpdate +PlugUpgrade +qall
-fi
+vim +PlugUpdate +PlugUpgrade +qall
 cd ~/.vim/bundle/YouCompleteMe
 ./install.py --clang-completer --go-completer --ts-completer --rust-completer
 

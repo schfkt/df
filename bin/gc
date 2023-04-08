@@ -34,16 +34,13 @@ function install() {
 	if [ -f "${REPO_ROOT}/go.mod" ]; then
 		go mod download
 		go mod tidy
-	fi
-
-	if [ -f "${REPO_ROOT}/.nvmrc" ]; then
-    . "$HOME/.nvm/nvm.sh"
-		nvm use
-	fi
-
-	if [ -f "${REPO_ROOT}/package.json" ]; then
-		yarn
-	fi
+  elif [ -f "${REPO_ROOT}/package.json" ]; then
+    if [ -f "${REPO_ROOT}/.nvmrc" ]; then
+      . "$HOME/.nvm/nvm.sh"
+      nvm use
+    fi
+    yarn
+  fi
 }
 
 checkout "$1"
