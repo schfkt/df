@@ -4,8 +4,29 @@
 
 call plug#begin()
 
-Plug 'ycm-core/YouCompleteMe'
 Plug 'nvim-lua/plenary.nvim'
+
+" LSP
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'neovim/nvim-lspconfig'
+
+" Completion
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+
+" Debugger
+Plug 'mfussenegger/nvim-dap'
+Plug 'leoluz/nvim-dap-go'
+Plug 'rcarriga/nvim-dap-ui'
+Plug 'theHamsta/nvim-dap-virtual-text'
+
+Plug 'SirVer/ultisnips'
+Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+
 Plug 'MunifTanjim/nui.nvim'
 Plug 'nvim-neo-tree/neo-tree.nvim', { 'tag': 'v2.*' }
 Plug 'nvim-lualine/lualine.nvim'
@@ -15,13 +36,10 @@ Plug 'tpope/vim-commentary'
 Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-unimpaired'
-Plug 'pangloss/vim-javascript'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'dense-analysis/ale'
-Plug 'SirVer/ultisnips'
 Plug 'dyng/ctrlsf.vim'
 Plug 'liuchengxu/vim-which-key'
-Plug 'leafgarland/typescript-vim'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'godlygeek/tabular'
@@ -111,7 +129,7 @@ set statusline+=%<%P                         " file position
 " Colors
 " ------------------------------------------------------------------------------
 
-set t_Co=256
+" set t_Co=256
 colorscheme solarized
 set bg=light
 highlight ColorColumn ctermbg=7
@@ -259,53 +277,46 @@ let g:which_key_map.g = {
       \ 'u' : 'undo-hunk',
       \ }
 
+" NOTE: see lua config below
 " Working with references
-nnoremap <leader>rd :YcmCompleter GetDoc<cr>
-nnoremap <leader>rf :YcmCompleter FixIt<cr>
-nnoremap <leader>rg :YcmCompleter GoToDefinition<cr>
-nnoremap <leader>ri :YcmCompleter GoToType<cr>
-nnoremap <leader>rr :YcmCompleter RefactorRename <C-r><C-w>
-nnoremap <leader>rt :YcmCompleter GetType<cr>
-nnoremap <leader>ru :YcmCompleter GoToReferences<cr>
-nnoremap <leader>rv :vsplit \| YcmCompleter GoToDefinition<cr>
-nnoremap <leader>rb :tab split \| YcmCompleter GoToDefinition<cr>
-
-" TODO: custom wrapper for ycm:
-" - close search window
-" - call ycm
+" nnoremap <leader>rd :YcmCompleter GetDoc<cr>
+" nnoremap <leader>rf :YcmCompleter FixIt<cr>
+" nnoremap <leader>rg :YcmCompleter GoToDefinition<cr>
+" nnoremap <leader>ri :YcmCompleter GoToType<cr>
+" nnoremap <leader>rr :YcmCompleter RefactorRename <C-r><C-w>
+" nnoremap <leader>rt :YcmCompleter GetType<cr>
+" nnoremap <leader>ru :YcmCompleter GoToReferences<cr>
+" nnoremap <leader>rv :vsplit \| YcmCompleter GoToDefinition<cr>
+" nnoremap <leader>rb :tab split \| YcmCompleter GoToDefinition<cr>
 
 let g:which_key_map.r = {
       \ 'name' : '+reference',
       \ 'd' : 'doc',
+      \ 'e' : 'show-diagnostics',
       \ 'f' : 'fix-it',
       \ 'g' : 'go-to-definition',
-      \ 'i' : 'go-to-type',
+      \ 'i' : 'list-implementations',
       \ 'r' : 'rename',
-      \ 't' : 'get-type',
+      \ 't' : 'go-to-type',
       \ 'u' : 'show-usages',
       \ 'v' : 'go-to-vsplit',
       \ }
 
 " Other code-related actions
 nnoremap <leader>cf :ALEFix<cr>
-
 " Copy file and line number under cursor to system clipboard (+ register)
 nnoremap <silent> <leader>cl :let @+ = join([expand('%'), line(".")], ':')<cr>
-
 nnoremap <leader>cm :Marks<cr>
-
-nnoremap <leader>csl :Snippets<cr>
-nnoremap <leader>csr :call UltiSnips#RefreshSnippets()<cr>
-
-nnoremap <leader>cr :YcmRestartServer<cr>
 
 let g:which_key_map.c = {
       \ 'name' : '+code',
       \ 'f' : 'fix',
       \ 'l' : 'location',
       \ 'm' : 'marks',
-      \ 'r' : 'restart-ycm-server',
       \ }
+
+nnoremap <leader>csl :Snippets<cr>
+nnoremap <leader>csr :call UltiSnips#RefreshSnippets()<cr>
 
 let g:which_key_map.c.s = {
       \ 'name' : '+snippets',
@@ -323,18 +334,6 @@ let g:which_key_map.w = {
       \ 'z' : 'zoom',
       \ }
 
-" Tmux interactions
-" TODO: add more https://github.com/christoomey/vim-tmux-runner/blob/master/doc/vim-tmux-runner.txt
-nnoremap <leader>ta :VtrAttachToPane<cr>
-nnoremap <leader>tf :VtrSendFile!<cr>
-nnoremap <leader>to :VtrOpenRunner<cr>
-
-let g:which_key_map.t = {
-      \ 'name' : '+tmux',
-      \ 'a' : 'attach-to-pane',
-      \ 'f' : 'send-file',
-      \ 'o' : 'open-runner',
-      \ }
 
 " Linter
 nnoremap <leader>lo :lopen<cr>
@@ -348,6 +347,24 @@ let g:which_key_map.l = {
       \ 'n' : 'next-error',
       \ 'o' : 'open-list',
       \ 'p' : 'previous-error',
+      \ }
+
+" Debugger
+nnoremap <leader>db :lua require('dap').toggle_breakpoint()<cr>
+nnoremap <leader>dc :lua require('dap').continue()<cr>
+nnoremap <leader>ds :lua require('dap').step_over()<cr>
+nnoremap <leader>di :lua require('dap').step_into()<cr>
+nnoremap <leader>do :lua require('dap').step_out()<cr>
+nnoremap <leader>du :lua require('dapui').toggle()<cr>
+
+let g:which_key_map.d = {
+      \ 'name' : '+debugger',
+      \ 'b' : 'toggle-breakpoint',
+      \ 'c' : 'continue',
+      \ 's' : 'step-over',
+      \ 'i' : 'step-into',
+      \ 'o' : 'step-out',
+      \ 'u' : 'ui-toggle',
       \ }
 
 " Plugin setup
@@ -390,14 +407,6 @@ augroup END
 " Settings for plugins
 " ------------------------------------------------------------------------------
 
-" vim-airline theme settings
-let g:airline_theme = 'solarized'
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-
-" No lag when leaving insert mode with vim-airline plugin activated
-set ttimeoutlen=50
-
 " ALE
 let g:ale_sign_error = '✘'
 let g:ale_sign_warning = '⚠'
@@ -405,10 +414,12 @@ let g:ale_sign_warning = '⚠'
 highlight ALEErrorSign ctermbg=NONE ctermfg=red
 highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
 
+let g:ale_fix_on_save = 1
+" LSP is handled by nvim
+let g:ale_disable_lsp = 1
 " Only enable linters specified by ale_linters map
 let g:ale_linters_explicit = 1
 
-" TODO: use LSPs - tsserver, gopls
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'typescript': ['tslint', 'eslint'],
@@ -441,16 +452,6 @@ let g:UltiSnipsExpandTrigger = '<C-j>'
 let g:UltiSnipsJumpForwardTrigger = '<C-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 
-" YouCompleteMe
-" Don't close QuickFix window
-autocmd User YcmQuickFixOpened autocmd! ycmquickfix WinLeave
-
-function! s:CustomizeYcmQuickFixWindow()
-  10wincmd _
-endfunction
-
-autocmd User YcmQuickFixOpened call s:CustomizeYcmQuickFixWindow()
-
 lua <<EOF
 require("neo-tree").setup({
   window = {
@@ -468,13 +469,16 @@ require("neo-tree").setup({
     use_libuv_file_watcher = true,
   },
 })
+
 require('gitsigns').setup()
+
 require('lualine').setup({
   options = {
     theme = 'solarized_light'
   },
   extensions = {'neo-tree', 'fugitive'},
 })
+
 require('nvim-treesitter.configs').setup({
   highlight = {
     enable = true,
@@ -492,4 +496,121 @@ require('nvim-treesitter.configs').setup({
     'dockerfile',
   },
 })
+
+-- Completion
+local cmp = require('cmp')
+
+cmp.setup({
+  snippet = {
+    -- REQUIRED - you must specify a snippet engine
+    expand = function(args)
+      vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+    end,
+  },
+  window = {
+    -- completion = cmp.config.window.bordered(),
+    -- documentation = cmp.config.window.bordered(),
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.abort(),
+
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      local col = vim.fn.col('.') - 1
+
+      if cmp.visible() then
+        cmp.select_next_item(select_opts)
+      elseif col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+        fallback()
+      else
+        cmp.complete()
+      end
+    end, {'i', 's'}),
+
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item(select_opts)
+      else
+        fallback()
+      end
+    end, {'i', 's'}),
+  }),
+  sources = cmp.config.sources({
+    { name = 'path' },
+    { name = 'nvim_lsp' },
+    { name = 'ultisnips' },
+  }, {
+    { name = 'buffer' },
+  })
+})
+cmp.setup.cmdline({ '/', '?' }, {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'buffer' }
+  }
+})
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+  { name = 'path' }
+  }, {
+    { name = 'cmdline' }
+  })
+})
+
+-- LSP
+require('mason').setup()
+require('mason-lspconfig').setup({
+  ensure_installed = {
+    'gopls',
+    'tsserver',
+  }
+})
+
+local lspconfig = require('lspconfig')
+local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+local get_servers = require('mason-lspconfig').get_installed_servers
+for _, server_name in ipairs(get_servers()) do
+  lspconfig[server_name].setup({
+    capabilities = lsp_capabilities,
+  })
+end
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  desc = 'LSP actions',
+  callback = function()
+    local bufmap = function(mode, lhs, rhs)
+      local opts = {buffer = true}
+      vim.keymap.set(mode, lhs, rhs, opts)
+    end
+
+    bufmap('n', '<leader>rd', '<cmd>lua vim.lsp.buf.hover()<cr>')
+    bufmap('n', '<leader>rg', '<cmd>lua vim.lsp.buf.definition()<cr>')
+    bufmap('n', '<leader>ri', '<cmd>lua vim.lsp.buf.implementation()<cr>')
+    bufmap('n', '<leader>rt', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
+    bufmap('n', '<leader>ru', '<cmd>lua vim.lsp.buf.references()<cr>')
+    bufmap('n', '<leader>rr', '<cmd>lua vim.lsp.buf.rename()<cr>')
+    bufmap('n', '<leader>rf', '<cmd>lua vim.lsp.buf.code_action()<cr>')
+    bufmap('n', '<leader>re', '<cmd>lua vim.diagnostic.open_float()<cr>')
+  end
+})
+
+-- Debugger
+local dap, dapui = require("dap"), require("dapui")
+dapui.setup()
+dap.listeners.after.event_initialized["dapui_config"] = function()
+  dapui.open()
+end
+dap.listeners.before.event_terminated["dapui_config"] = function()
+  dapui.close()
+end
+dap.listeners.before.event_exited["dapui_config"] = function()
+  dapui.close()
+end
+
+require('dap-go').setup()
+require("nvim-dap-virtual-text").setup()
 EOF
