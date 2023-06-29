@@ -379,20 +379,12 @@ nnoremap <silent> <leader> :<c-u>WhichKey '\'<CR>
 augroup configgroup
   autocmd!
 
-  " Trim whitespaces on save
-  autocmd BufWritePre * :%s/\s\+$//e
-
   " Disable automatic comment insertion
   autocmd BufNewFile,BufRead * setlocal formatoptions-=cro
 augroup END
 
 augroup custom_functions
   autocmd!
-
-  function MyGoToReferences()
-    execute "CtrlSFClose"
-    execute "YcmCompleter GoToReferences"
-  endfunction
 
   function MyWindowCodeOnly()
     " Close windows that don't contain code itself
